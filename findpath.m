@@ -1,4 +1,4 @@
-function path = findpath(map, start, goal)
+function path = findpath(map, startingConfig, goal)
 
 % function for finding an obstacle free path through the provided map from
 % the start location to the goal location
@@ -23,36 +23,30 @@ function path = findpath(map, start, goal)
     %%start = [292.10000,0,222.2500];
     
     %the end effector position at when joint angles are zero
-    zeroPosition = [292.10000,0,222.2500];
+    %zeroPosition = [292.10000,0,222.2500];
     
-    %I chose 5mm to be negligible distance between two 3d points in space  
-    EPSILON = 5;
+    %I chose 40mm to be negligible distance between two 3d points in space  
+    EPSILON = 40;
     
+    %the maximum time this algorithem can take before it times out  
+    maximumWaitTime = 1;
     
-    robotsJointAngles = [0,0,0,0];
+    startingConfig = startingConfig(:,1:4);
     path = [];
     
-    %if the user did not provide the default end effector position 
-    %(i.e joint angles are all 0), find a path to the starting position, 
-    %in order to figure out the starting configuration
-    if norm(start - zeroPosition)>=EPSILON
-        pathFromZeroToStart = findPathFromStart(start);
-        if isempty(pathFromZeroToStart)
-            return;
-        end
-        robotsJointAngles = pathFromZeroToStart(size(pathFromZeroToStart,1),1:4); 
-    end
-
+    [~,T0e] = calculateFK_sol([startingConfig 0]);
+    start = T0e(1:3,4).';
+           
     
-    
-
     %%open list has format [jointAngles cost f path]
-    openList = [robotsJointAngles 0 norm(goal - start) cellstr(mat2str(robotsJointAngles))];
+    openList = [startingConfig 0 norm(goal - start) cellstr(mat2str(startingConfig))];
     
-    closedList=robotsJointAngles;
+    closedList=startingConfig;
     %%disp(openList);
-
-    while ~isempty(openList)
+    timeElapsed = 0;
+    
+    tic 
+    while (~isempty(openList) && timeElapsed<maximumWaitTime)
 
         minRowIndex = getMin(openList);
         minRow = openList(minRowIndex,:);
@@ -112,7 +106,7 @@ function path = findpath(map, start, goal)
                     configuration = eval(char(configurationStr));
                     path = [configuration;path];
                 end
-                
+               
                 %stops the search
                 return;
             end
@@ -139,7 +133,8 @@ function path = findpath(map, start, goal)
         end
      
       closedList = [currentJointAngles;closedList];
+      timeElapsed = toc;
     end
-
+    path = "The position you specified is either outside the robot's reach or too close to an obstacle";
 end
     

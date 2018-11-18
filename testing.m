@@ -1,1 +1,3 @@
-scatter3(0,0,0);
+startingConfig = [0 0 0 0 0 0];
+startingConfig = startingConfig(:,1:4);
+startingConfig
