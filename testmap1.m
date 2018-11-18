@@ -7,6 +7,7 @@ jointAnglesGoal =  [1.2,0.5,-0.7,-0.7,0,0];
 %between poses/configurations    
 
 map = loadmap("map_1.txt");
+map2 = loadmap("map_2.txt");
 
 [jointPositions2,T0e2] = calculateFK_sol(jointAnglesGoal);
 
@@ -26,6 +27,7 @@ lynxStart();
 q = [0 0 0 0 0 0];
 plotLynx(q);
 plotmap(map);
+plotmap(map2);
 for i = 1:size(jointAnglesPath,1)
     angles = jointAnglesPath(i,:);
 
