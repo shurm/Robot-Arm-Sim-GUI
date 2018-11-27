@@ -1,5 +1,5 @@
 function deletePointsFromPlot(pointsPlotted)
-%UNTITLED Removes the following scattered objects/points from the current
+%Removes the following scattered objects/points from the current
 %scatter plot
     for i = 1:size(pointsPlotted,1)
         point = pointsPlotted(i,:);

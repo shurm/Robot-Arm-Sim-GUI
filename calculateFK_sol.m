@@ -1,6 +1,6 @@
 function [jointPositions,T0e] = calculateFK_sol(q)
 % Input: q - 1 x 6 vector of joint inputs [q1,q2,q3,q4,q5,lg]
-
+%
 % Outputs:  jointPositions - 6 x 3 matrix, where each row represents one 
 %               joint along the robot. Each row contains the [x,y,z]
 %               coordinates of the respective joint's center (mm). For
@@ -11,7 +11,6 @@ function [jointPositions,T0e] = calculateFK_sol(q)
 %               the end effector frame expressed in the base (0) frame
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Your code here
 
 % Lynx ADL5 constants in mm
 d1 = 76.2; % base height (table to center of joint 2)
