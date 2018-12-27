@@ -15,7 +15,7 @@ function collided = checkforcollisions(jointPositions, obstacles)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %the minimum threhold distance that a joint position can be from safely
     %from an obstacle. (assume it collides if it gets closer).
-    collisionRadius = 50;
+    collisionRadius = 30;
     
     %assume no collision at first
     collided = false;

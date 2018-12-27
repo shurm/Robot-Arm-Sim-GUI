@@ -1,4 +1,4 @@
-function path = findpath(map, startingConfig, goal)
+function path = findpath(map, startingConfig, goal, stoppingDist)
 
 % function for finding an obstacle free path through the provided map from
 % the start location to the goal location
@@ -11,6 +11,10 @@ function path = findpath(map, startingConfig, goal)
 %
 % goal  : a 1x3 vector containing the coordinates (x,y,z) of the goal
 %         location
+%
+% stoppingDist : a scalar specifying the how far the end effector of the
+%               robot arm can be before it becomes ("close enough") to the 
+%               goal
 %
 % path  : an Nx5 vector of joint variable values which constitute the path found
 %         using your planner; Note: N is not known beforehand and will vary
@@ -26,13 +30,14 @@ function path = findpath(map, startingConfig, goal)
     %zeroPosition = [292.10000,0,222.2500];
     
     %I chose 40mm to be negligible distance between two 3d points in space  
-    EPSILON = 40;
+    %EPSILON = 40;
+    EPSILON = stoppingDist * 10;
     
     %the maximum time this algorithem can take before it times out  
     maximumWaitTime = 1;
     
     startingConfig = startingConfig(:,1:4);
-    path = [];
+    
     
     [~,T0e] = calculateFK_sol([startingConfig 0]);
     start = T0e(1:3,4).';
